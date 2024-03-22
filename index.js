@@ -108,8 +108,9 @@ switch (choice) {
     case 'REMOVE_ROLE':
         return removeRole();
     default:
-        return quit();
-
+        return quit();  
+    }
+}
 async function viewEmployees() {
     const employees = await db.findAllEmployees();
     console.log('\n');
@@ -125,10 +126,10 @@ async function viewEmployeesByDepartment() {
         value: id
     }));
 
-    const { departmentID } = await prompt([
+    const { departmentId } = await prompt([
         {
             type: 'list',
-            name: 'departmentID',
+            name: 'departmentId',
             message: 'Please select Department',
             choices: departmentChoices
         }
@@ -162,13 +163,13 @@ async function viewEmployeesByManager() {
     console.log('\n');
 
     if (employees.length === 0) {
-        console.log('This employee has not reports');
+        console.log('This employee has no reports available');
     } else {
         console.table(employees);
     }
      
     loadMainPrompts();
-
+}
 async function removeEmployee() {
     const employees = await db.findAllEmployees();
 
