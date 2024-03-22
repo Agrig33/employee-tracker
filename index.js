@@ -413,6 +413,14 @@ async function addEmployee() {
     });
 
     employee.manager_id = managerId;
+
+    await db.createEmployee(employee);
+        console.log(`Added ${employee.first_name} ${employee.last_name} to the database`);
+
+        loadMainPrompts();
 }
-}
-}
+
+    function quit() {
+        console.log('Goodbye!');
+        process.exit();
+    }
