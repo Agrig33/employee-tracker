@@ -1,4 +1,4 @@
-const { prompt } = require('inquirer');
+const inquirer = require('inquirer')
 const logo = require('asciiart-logo');
 const db = require('./db');
 const mysql = require('mysql2');
@@ -130,7 +130,7 @@ async function viewEmployeesByDepartment() {
         {
             type: 'list',
             name: 'departmentId',
-            message: 'Please select Department',
+            message: 'What is the name of the department?',
             choices: departmentChoices
         }
     ]);
@@ -205,7 +205,7 @@ async function updateEmployeeRole() {
         {
             type: 'list',
             name: 'employeeId',
-            message: 'Please select the employee you would like, to update their role for',
+            message: "Which employee's role do you want to update?",
             choices: employeeChoices
         }
     ]);
