@@ -224,6 +224,87 @@ async function updateEmployeeRole() {
             choices: roleChoices
         }
     ]);
+
+    await db.updateEmployeeRole(employeeId, roleId);
+    console.log('Role has been updated');
+
+    loadMainPrompts();
+}
+
+async function updateEmployeeManager() {
+    const employees = await db.findAllEmployees();
+    
+    const employeeChoices = employees.map(({ id, first_name, last_name }) => ({
+        name: `${first_name} ${last_name}`,
+        value: id
+    }));
+
+    const { employeeID } = await prompt([
+        {
+            type: 'list',
+            name: 'employeeId', 
+            message: "Which employee's manager would you like to update?",
+            choices: employeeChoices
+        }
+    ]);
+
+    const managers = await db.findAllPossibleManagers(employeeID);
+
+    const managerChoices = managers.map(({ id, first_name, last_name }) => ({
+        name: `${first_name} ${last_name}`,
+        value: id
+    }));
+
+    const { managerId } = await prompt([
+        {
+            type: 'list',
+            name: 'managerId',
+            message: 'Which manager would you like to set for this employee?',
+            choices: managerChoices
+        }
+    ]);
+
+    await db.updateEmployeeManager(employeeID, managerId);
+        console.log("Employee's manager has been updated");
+
+        loadMainPrompts();
+}
+
+async function viewRoles() {
+    console.log('\n');
+    console.table(roles);
+
+    loadMainPrompts();
+}
+async function addRole() {
+    const departments = await db.findAllDepartments();
+
+    const departmentChoices = departments.map(({ id, name }) => ({
+        name: name, 
+        value: id
+    }));
+
+    const role = await prompt([
+        {
+            name: 'title',
+            message: 'What is the name of the role?'
+        },
+        {
+            name: 'salary',
+            message: 'Please add salary for this role'
+        },
+        {
+            type: 'list',
+            name: 'department_id',
+            message: 'Which department does the role belong go?',
+            choices: departmentChoices
+        }
+    ]);
+    
+    await db.createRold(role);
+        console.log(`Added ${role.title} to the database`);
+    
+    loadMainPrompts();
 }
 }
 }
