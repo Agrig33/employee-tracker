@@ -1,9 +1,11 @@
 const connection = require('./db/connection');
 const inquirer = require('inquirer');
 const asciiLogo = require('asciiart-logo');
-const mysql = require(mysql2);
+const mysql = require('mysql2');
 const express = require('express');
-require('console.table');
+const consoleTable = require('console.table');
+
+const connection = mysql.createConnection
 
 connection.connect((err) => {
     if (err) throw err;
@@ -34,18 +36,25 @@ function startTracker() {
         switch (answer.choices) {
             case 'VIEW_ALL_EMPLOYEES':
                 viewData('employees');
+                break;
             case 'VIEW_ALL_DEPARTMENTS':
                 viewData('department');
+                break;
             case 'VIEW_ALL_ROLES':
                 viewData('roles');
+                break;
             case 'ADD_AN_EMPLOYEE':
                 addData('employees', ['first_name', 'last_name', 'roles_id']);
+                break;
             case 'ADD_A_DEPARTMENT':
                 addData('department', ['name']);
+                break;
             case 'ADD_A_ROLE':
                 addData('roles', ['title', 'salary', 'department', 'roles_id']);
+                break;
             case 'UPDATE_EMPLOYEE_ROLE':
                 updateEmployeeRole();
+                break;
             default:
                 console.log('Please select an option');
         }
