@@ -1,7 +1,5 @@
-const connection = require('./db/connection');
 const inquirer = require('inquirer');
 const asciiLogo = require('asciiart-logo');
-const express = require('express');
 const consoleTable = require('console.table');
 
 const mysql = require('mysql2');
@@ -16,12 +14,15 @@ connection.connect((err) => {
     if (err) throw err;
     console.log('You are now connected!');
 
-    startTracker();
+    init();
 });
 
+function init() {
+    startTracker();
+}
+
 function startTracker() {
-    inquirer
-    .prompt([
+    inquirer.prompt([
         {
             type: 'list',
             name: 'choices',
@@ -36,32 +37,32 @@ function startTracker() {
                 'Update employee role',
             ],
         },
-    ])
-    .then((answer) => {
+    ]).then((answer) => {
         switch (answer.choices) {
-            case 'VIEW_ALL_EMPLOYEES':
+            case 'View all employees':
                 viewData('employees');
                 break;
-            case 'VIEW_ALL_DEPARTMENTS':
+            case 'view all departments':
                 viewData('department');
                 break;
-            case 'VIEW_ALL_ROLES':
+            case 'View all roles':
                 viewData('roles');
                 break;
-            case 'ADD_AN_EMPLOYEE':
+            case 'Add an employee':
                 addData('employees', ['first_name', 'last_name', 'roles_id']);
                 break;
-            case 'ADD_A_DEPARTMENT':
+            case 'Add a department':
                 addData('department', ['name']);
                 break;
-            case 'ADD_A_ROLE':
+            case 'Add a role':
                 addData('roles', ['title', 'salary', 'department', 'roles_id']);
                 break;
-            case 'UPDATE_EMPLOYEE_ROLE':
+            case 'Update employee role':
                 updateEmployeeRole();
                 break;
             default:
                 console.log('Please select an option');
+                startTracker();
         }
     });
 }
@@ -81,10 +82,8 @@ function addData(table, fields) {
         message: `Enter ${field}:`,
     }));
 
-    inquirer
-        .prompt(prompts)
-        .then((answer) => {
-            connection.query(`INSERT INTO ${table} SET ?`, answer, (err,res) => {
+    inquirer.prompt(prompts).then((answer) => {
+            connection.query(`INSERT INTO ${table} SET ?`, answer, (err, res) => {
                 if (err) throw err;
                 console.log('It has been added Successfully!');
                 startTracker();
@@ -93,8 +92,7 @@ function addData(table, fields) {
 }
 
 function updateEmployeeRole() {
-    inquirer
-    .prompt([
+    inquirer.prompt([
         {
             type: 'input',
             name: 'employee_id',
@@ -102,14 +100,13 @@ function updateEmployeeRole() {
         },
         {
             type: 'input',
-            name: 'roles_id',
+            name: 'role_id',
             message: 'Please enter role id:',
         },
-    ])
-    .then((answer) => {
+    ]).then((answer) => {
         connection.query(
-            'UPDATE employees SET roles_id = ? WHERE id =?',
-            [answer.roles_id, answer.employee_id], (err, res) => {
+            'UPDATE employees SET role_id = ? WHERE id =?',
+            [answer.role_id, answer.employee_id], (err, res) => {
                 if (err) throw err;
                 console.log('It was updated successfully!');
                 startTracker();
@@ -117,5 +114,3 @@ function updateEmployeeRole() {
         );
     });
 }
-
-init();
