@@ -2,6 +2,7 @@ const connection = require('./db/connection');
 const inquirer = require('inquirer');
 const asciiLogo = require('asciiart-logo');
 const mysql = require(mysql2);
+const express = require('express');
 require('console.table');
 
 connection.connect((err) => {
