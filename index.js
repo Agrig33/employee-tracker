@@ -1,6 +1,6 @@
 const connection = require('./db/connection');
 const inquirer = require('inquirer');
-const logo = require('asciiart-logo');
+const asciiLogo = require('asciiart-logo');
 const mysql = require(mysql2);
 require('console.table');
 
