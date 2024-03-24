@@ -5,7 +5,13 @@ const mysql = require('mysql2');
 const express = require('express');
 const consoleTable = require('console.table');
 
-const connection = mysql.createConnection
+const mysql = require('mysql2');
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: "",
+    database: 'employees'
+});
 
 connection.connect((err) => {
     if (err) throw err;
