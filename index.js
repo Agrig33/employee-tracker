@@ -1,19 +1,20 @@
+//Dependencies
 const inquirer = require('inquirer');
-const asciiLogo = require('asciiart-logo');
-const consoleTable = require('console.table');
-
+// const asciiLogo = require('asciiart-logo');
 const mysql = require('mysql2');
-const connection = mysql.createConnection({
+
+//Conection to SQL
+const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: "",
-    database: 'employees'
+    database: 'employees_db'
 });
 
-connection.connect((err) => {
+db.connect((err) => {
     if (err) throw err;
     console.log('You are now connected!');
-
+    
     init();
 });
 
@@ -28,36 +29,38 @@ function startTracker() {
             name: 'choices',
             message: 'Please select from following choices',
             choices: [
-                'View all employees',
-                'View all departments',
-                'View all roles',
-                'Add an employee',
-                'Add a department',
-                'Add a role',
-                'Update employee role',
+                'View ALL Employees',
+                'View ALL Departments',
+                'View ALL Roles',
+                'Add Employee',
+                'Add A Department',
+                'Add A Role',
+                'Update Employee Role',
+                'End',
             ],
         },
-    ]).then((answer) => {
+    ])
+    .then((answer) => {
         switch (answer.choices) {
-            case 'View all employees':
+            case 'View All Employees':
                 viewData('employees');
                 break;
-            case 'view all departments':
+            case 'View All Departments':
                 viewData('department');
                 break;
-            case 'View all roles':
+            case 'View All Roles':
                 viewData('roles');
                 break;
-            case 'Add an employee':
+            case 'Add Employee':
                 addData('employees', ['first_name', 'last_name', 'roles_id']);
                 break;
-            case 'Add a department':
+            case 'Add A Department':
                 addData('department', ['name']);
                 break;
-            case 'Add a role':
+            case 'Add A Role':
                 addData('roles', ['title', 'salary', 'department', 'roles_id']);
                 break;
-            case 'Update employee role':
+            case 'Update Employee Role':
                 updateEmployeeRole();
                 break;
             default:
@@ -68,7 +71,7 @@ function startTracker() {
 }
 
 function viewData(table) {
-    connection.query(`SELECT * FROM ${table}`, (err, results) => {
+    db.query(`SELECT * FROM ${table}`, (err, results) => {
         if (err) throw err;
         console.table(results);
         startTracker();
@@ -78,12 +81,12 @@ function viewData(table) {
 function addData(table, fields) {
     const prompts = fields.map(field => ({
         type: 'input',
-        name: field,
+        name: 'field',
         message: `Enter ${field}:`,
     }));
 
     inquirer.prompt(prompts).then((answer) => {
-            connection.query(`INSERT INTO ${table} SET ?`, answer, (err, res) => {
+            db.query(`INSERT INTO ${table} SET ?`, answer, (err, res) => {
                 if (err) throw err;
                 console.log('It has been added Successfully!');
                 startTracker();

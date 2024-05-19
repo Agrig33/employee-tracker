@@ -1,9 +1,27 @@
 {
+  "name": "employee-tracker",
+  "description": "## Description This application was created to help user view differet roles, employees and departments of a company.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Agrig33/employee-tracker.git"
+  },
+  "keywords": [
+    "inquirer",
+    "npm",
+    "SQL"
+  ],
+  "author": "Airin Grigorian",
+  "license": "ISC",
   "dependencies": {
     "asciiart-logo": "^0.2.7",
     "console.table": "^0.10.0",
     "express": "^4.19.1",
     "inquirer": "^8.2.4",
-    "mysql2": "^3.9.2"
+    "mysql2": "^3.9.7"
   }
 }
