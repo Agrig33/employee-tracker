@@ -25,7 +25,7 @@ A command-line application, created to allow users to manage their employee data
   2. Follow and answer questions/prompts provided to add/update a role, salary, department and employee.
 
 ## Video Tutorial
-[See Demo] (https://drive.google.com/file/d/113_VeZkwVoQTLkBR8L73IsYrdPtfK0xN/view)
+[See Demo](https://drive.google.com/file/d/113_VeZkwVoQTLkBR8L73IsYrdPtfK0xN/view)
 
 ## Contributions
 
